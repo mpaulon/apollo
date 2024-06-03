@@ -1,0 +1,27 @@
+[project]
+name = "apollo"
+description = "simple movie/show renamer"
+authors = [{ "name" = "Michaël PAULON", "email" = "michael@paulon.org" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+dynamic = ["version", "dependencies"]
+
+[project.scripts]
+apollo = "apollo.main:run"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
+dev = ["requirements-dev.txt"]
+
+[tool.hatch.version]
+path = "apollo/__version__.py"
+
+[tool.black]
+line-length = 120
+
+[build-system]
+requires = ["hatchling", "hatch-requirements-txt"]
+build-backend = "hatchling.build"
