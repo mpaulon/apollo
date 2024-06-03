@@ -86,7 +86,8 @@ def process_file(
 
     # moving file
     logger.info("%s -> %s", file, output_file)
-    input("Press key to proceed")
+    if input("Press key to proceed or s to skip") == "s":
+        return 
     if not dry_run:
         output_file.parent.mkdir(exist_ok=True, parents=True)
         if preserve:
