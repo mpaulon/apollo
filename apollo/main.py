@@ -25,32 +25,26 @@ def process_file(
     preserve: bool = False,
     dry_run: bool = False,
     forced_type: str | None = None,
+    forced_title: str | None = None,
 ):
     logger.info("Processing %s", file)
     guess = guessit.guessit(file)
     logger.debug("Guess data: %", guess)
 
-    guess_title = guess.get("alternative_title") or guess["title"]
+    guess_title = forced_title or guess.get("alternative_title") or guess["title"]
     media_type = forced_type or guess["type"]
 
-    try:
-        result = tmdb_client.search(
-            guess_title,
-            video_type={"movie": "movie", "episode": "tv"}[media_type],
-            year=guess.get("year"),
-        )
-    except tmdb.MovieNotFound:
-        result = tmdb_client.search(
-            input("Title: "),
-            video_type={"movie": "movie", "episode": "tv"}[media_type],
-            year=guess.get("year"),
-        )
+    result = tmdb_client.search(
+        guess_title,
+        video_type={"movie": "movie", "episode": "tv"}[media_type],
+        year=guess.get("year"),
+    )
 
     # open old nfo file and try to match tmdbid
 
     overview = result["overview"]
     tmdb_id = str(result["id"])
-    if guess["type"] == "movie":
+    if media_type == "movie":
         title = result["title"]
         original_title = result["original_title"]
 
@@ -61,7 +55,7 @@ def process_file(
         output_file = output_folder / f"{file_name}{file.suffix}"
         output_nfo = output_folder / f"{file_name}.nfo"
 
-    elif guess["type"] == "episode":
+    elif media_type == "episode":
         series_name = result["name"]
         year = str(
             datetime.datetime.strptime(result["first_air_date"], "%Y-%m-%d").year
@@ -130,7 +124,7 @@ def run():
             continue
         try:
             process_file(tmdb_client, args.output, file, args.preserve, args.dry_run)
-        except MaybeInvalidMediaType:
+        except (MaybeInvalidMediaType, tmdb.MovieNotFound):
             process_file(
                 tmdb_client,
                 args.output,
@@ -138,6 +132,7 @@ def run():
                 args.preserve,
                 args.dry_run,
                 forced_type=input("Media type (movie or episode): "),
+                forced_title=input("Title: "),
             )
 
 
