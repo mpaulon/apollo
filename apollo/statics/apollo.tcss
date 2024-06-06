@@ -1,0 +1,81 @@
+AppContentContainer {
+    align-horizontal: left;
+    border: wide white;
+}
+
+AppMediaContainer {
+    height: auto;
+    background: $boost;
+    layout: horizontal;
+    align-vertical: middle;
+}
+
+AppMediaContainer > .media-title {
+    height: auto;
+    width: auto;
+    align-horizontal: center;
+    border: solid green;
+}
+
+AppMediaContainer > .media-button {
+    dock: right;
+    border: wide;
+    width: auto;
+    padding: 0;
+}
+
+AppMediaContainer > Label {
+    height: auto;
+    margin: 1 0;
+}
+
+/* Modal */
+AppProcessMediaScreen {
+    align-horizontal: center;
+}
+
+AppProcessMediaScreen > Container {
+    align-horizontal: center;
+    height: auto;
+}
+
+AppProcessMediaScreen > Container > RadioSet {
+    layout: horizontal;
+    
+}
+AppProcessMovieScreenContainer > Horizontal {
+    height: auto;
+}
+AppProcessMovieScreenContainer > Horizontal > .label {
+    margin: 1 0;
+}
+
+AppProcessMovieScreenContainer > Horizontal > .overview-content {
+    border: solid white;
+    max-width: 90%;
+}
+
+AppProcessMediaScreen > .destination-container {
+    height: auto;
+}
+
+AppProcessMediaScreen > .destination-buttons {
+    border: solid blue;
+    align-horizontal: center;
+    width: auto;
+    height: auto;
+    dock: bottom;
+    margin: 2 0;
+}
+
+AppProcessMediaScreen > .destination-buttons > Button {
+    margin: 1;
+}
+
+.error-message {
+    background: red;
+    width: auto;
+    border: wide white;
+    text-style: bold;
+    text-align: center;
+}

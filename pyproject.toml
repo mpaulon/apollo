@@ -4,17 +4,20 @@ description = "simple movie/show renamer"
 authors = [{ "name" = "Michaël PAULON", "email" = "michael@paulon.org" }]
 readme = "README.md"
 license = { file = "LICENSE" }
-dynamic = ["version", "dependencies"]
+dynamic = ["version", "dependencies", "optional-dependencies"]
 
 [project.scripts]
 apollo = "apollo.main:run"
+apollo-tui = "apollo.tui:run"
 
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.metadata.hooks.requirements_txt]
 files = ["requirements.txt"]
-dev = ["requirements-dev.txt"]
+
+[tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
+tui = ["requirements-tui.txt"]
 
 [tool.hatch.version]
 path = "apollo/__version__.py"
