@@ -27,8 +27,7 @@ class AppProcessMovieScreenContainer(textual.containers.Container):
     def compose(self) -> textual.app.ComposeResult:
         with textual.containers.Horizontal():
             yield textual.widgets.Label("Title :", classes="label")
-            if self._media_infos is not None:
-                yield textual.widgets.Input(self._media_infos["title"], id="movie-title")
+            yield textual.widgets.Input(self._media_infos["title"] if self._media_infos is not None, id="movie-title")
         if not self._not_found:
             with textual.containers.Horizontal():
                 yield textual.widgets.Label("Overview : ", classes="label")
