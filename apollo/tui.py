@@ -14,7 +14,7 @@ logger = common.setup_logger(__name__)
 
 class AppProcessMovieScreenContainer(textual.containers.Container):
 
-    def __init__(self, media_infos: dict, movie_not_found: bool = False, *args, **kwargs):
+    def __init__(self, media_infos: dict | None, movie_not_found: bool = False, *args, **kwargs):
         self._media_infos = media_infos
         self._not_found = movie_not_found
         super().__init__(*args, **kwargs)
@@ -27,7 +27,8 @@ class AppProcessMovieScreenContainer(textual.containers.Container):
     def compose(self) -> textual.app.ComposeResult:
         with textual.containers.Horizontal():
             yield textual.widgets.Label("Title :", classes="label")
-            yield textual.widgets.Input(self._media_infos["title"], id="movie-title")
+            if self._media_infos is not None:
+                yield textual.widgets.Input(self._media_infos["title"], id="movie-title")
         if not self._not_found:
             with textual.containers.Horizontal():
                 yield textual.widgets.Label("Overview : ", classes="label")
@@ -117,6 +118,8 @@ class AppProcessMediaScreen(textual.screen.ModalScreen):
                 self._extra_infos,
             )
         except tmdb.MovieNotFound as exc:
+            self._media_type = "movie"
+            self._media_infos = None
             self._error_state = exc
 
     def compose(self):
